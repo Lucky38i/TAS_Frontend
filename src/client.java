@@ -1,6 +1,4 @@
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -8,27 +6,23 @@ public class client {
 
 
     public static void main(String[] args) {
-        String host = "localhost";
-       int portNumber = 3848;
+        String host = "192.168.0.52";
+       int portNumber = 8080;
 
-        try{
+        try(Socket socket = new Socket(host, portNumber);
+            BufferedWriter toServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            BufferedReader fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()))){
 
-            Socket socket = new Socket(host, portNumber);
-            if (socket.isConnected()) System.out.println("Connected");
-            ObjectInputStream fromServer = new ObjectInputStream(socket.getInputStream());
-            ObjectOutputStream toServer = new ObjectOutputStream(socket.getOutputStream());
 
-            System.out.println(socket.getLocalAddress());
+            System.out.println("Connected to: " + socket.getInetAddress());
 
-            toServer.writeUTF("Hello this is the Java Client");
+            toServer.write("Hello from Java Client");
             toServer.flush();
 
-            while(!socket.isClosed()) {
-                if (fromServer.available() > 0) {
-                    String input = fromServer.readUTF();
-                    System.out.println(input);
-                }
-            }
+
+            System.out.println("Reading from Server");
+            System.out.println(fromServer.readLine());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
