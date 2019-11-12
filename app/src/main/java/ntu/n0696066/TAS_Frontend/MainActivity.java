@@ -44,22 +44,19 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        btn_Connect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (et_IpAddress.getText().toString().isEmpty() || et_ServerPort.getText().toString().isEmpty()) {
-                    alert.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
-                    alert.setMessage("Please complete all required field");
-                    alert.setNeutralButton("OK", (dialog, which) -> dialog.dismiss());
-                    alert.show();
-                } else {
-                    SERVER_IP = et_IpAddress.getText().toString();
-                    SERVER_PORT = Integer.parseInt(et_ServerPort.getText().toString());
-                    mapper = new ObjectMapper();
-                    test = new Alert("Ford", 2080);
-                    serverConnect = new Thread(new bgThread());
-                    serverConnect.start();
-                }
+        btn_Connect.setOnClickListener(v -> {
+            if (et_IpAddress.getText().toString().isEmpty() || et_ServerPort.getText().toString().isEmpty()) {
+                alert.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
+                alert.setMessage("Please complete all required field");
+                alert.setNeutralButton("OK", (dialog, which) -> dialog.dismiss());
+                alert.show();
+            } else {
+                SERVER_IP = et_IpAddress.getText().toString();
+                SERVER_PORT = Integer.parseInt(et_ServerPort.getText().toString());
+                mapper = new ObjectMapper();
+                test = new Alert("Ford", 2080);
+                serverConnect = new Thread(new bgThread());
+                serverConnect.start();
             }
         });
     }
