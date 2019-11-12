@@ -1,3 +1,5 @@
+package ntu.n0696066.TAS_Frontend;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

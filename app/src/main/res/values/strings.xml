@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">My First App</string>
+    <string name="edit_message">Enter your message</string>
+    <string name="button_send">Send</string>
+    <string name="ip_address_text">IP Address</string>
+    <string name="port_text">Port</string>
+    <string name="connect_button">Connect</string>
+    <string name="connected_checkbox">Connected</string>
+    <string name="dialog_message">One of the required fields are empty</string>
+    <string name="dialog_title">Alert Dialog</string>
+</resources>
