@@ -1,2 +1,2 @@
+rootProject.name='TAS_App'
 include ':app'
-rootProject.name='My First App'
