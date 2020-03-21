@@ -8,4 +8,10 @@
     <string name="connected_checkbox">Connected</string>
     <string name="dialog_message">One of the required fields are empty</string>
     <string name="dialog_title">Alert Dialog</string>
+    <string name="fcw"> Forward Collision Warning</string>
+    <string name="heading_temp">Temporary Heading</string>
+    <string name="desc_temp">Temporary Description</string>
+    <string name="image_desc_temp">Temporary description of an image</string>
+    <string name="Next">Next</string>
+    <string name="Finished">Finished</string>
 </resources>
