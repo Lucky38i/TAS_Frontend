@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager.widget.PagerAdapter
@@ -41,8 +40,9 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        assert(context != null)
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view : View = layoutInflater.inflate(R.layout.slide_layout, container,
+        val view : View = layoutInflater.inflate(R.layout.onboard_list_item, container,
             false)
 
         val slideImageView : ImageView = view.findViewById(R.id.slide_image)

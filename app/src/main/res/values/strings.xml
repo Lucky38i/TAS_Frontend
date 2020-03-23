@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My First App</string>
+    <string name="app_name">TAS</string>
     <string name="edit_message">Enter your message</string>
     <string name="button_send">Send</string>
     <string name="ip_address_text">IP Address</string>
@@ -14,4 +14,6 @@
     <string name="image_desc_temp">Temporary description of an image</string>
     <string name="Next">Next</string>
     <string name="Finished">Finished</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
