@@ -21,8 +21,8 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
         "Features"
     )
     private var slideDescs = arrayOf(
-        "Welcome to the Traffic Avoidance System, TAS is made to offer you vehicular awareness " +
-                "features in order to make you a safer driver"
+        "TAS is meant to be used hands-free, the app will provide visual cues",
+        "TODO"
     )
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
