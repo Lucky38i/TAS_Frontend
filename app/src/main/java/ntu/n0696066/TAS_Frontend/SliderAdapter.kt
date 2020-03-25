@@ -40,7 +40,6 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        assert(context != null)
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view : View = layoutInflater.inflate(R.layout.onboard_list_item, container,
             false)

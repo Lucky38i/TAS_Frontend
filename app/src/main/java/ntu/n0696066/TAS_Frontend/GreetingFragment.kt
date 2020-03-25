@@ -25,9 +25,12 @@ class GreetingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Init
         navController = Navigation.findNavController(view)
         mGreetingNextBtn = view.findViewById(R.id.greetingNextBtn)
 
+        //Listeners
         mGreetingNextBtn.setOnClickListener {
             navController.navigate(R.id.action_greetingFragment_to_onboard)
         }
