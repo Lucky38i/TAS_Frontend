@@ -24,7 +24,5 @@ class Splash : Fragment() {
 
         val navController : NavController = Navigation.findNavController(view)
         splashProgress = view.findViewById(R.id.splash_progress)
-        Thread.sleep(3000L)
-        navController.navigate(R.id.action_splash_to_onboard)
     }
 }

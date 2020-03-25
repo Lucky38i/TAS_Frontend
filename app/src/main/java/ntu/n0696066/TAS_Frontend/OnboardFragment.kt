@@ -1,6 +1,8 @@
 package ntu.n0696066.TAS_Frontend
 
-import android.graphics.drawable.AnimationDrawable
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
@@ -21,10 +23,9 @@ class OnboardFragment : Fragment() {
     private lateinit var sliderAdapter : SliderAdapter
     private lateinit var mDots : Array<TextView>
     private lateinit var mOnboardNextButton : Button
-    private lateinit var buttonAnimation : AnimationDrawable
 
 
-    // Normal Attributes
+    // Attributes
     private var mCurrentPage = 0
 
     fun addDotsIndicator(position : Int) {
@@ -56,15 +57,12 @@ class OnboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Variables
+
         // Attribute Initialization
         mSlideViewPager = view.findViewById(R.id.slideViewPager)
         mDotLayout = view.findViewById(R.id.dotsLayout)
         mOnboardNextButton = view.findViewById(R.id.onboardNextBtn)
-        mOnboardNextButton.apply {
-            setBackgroundResource(R.drawable.button_bg_change)
-            // TODO make a more fluid animation
-            buttonAnimation = background as AnimationDrawable
-        }
         sliderAdapter = SliderAdapter(this.requireContext())
         mSlideViewPager.adapter = sliderAdapter
 
@@ -98,13 +96,17 @@ class OnboardFragment : Fragment() {
                     mOnboardNextButton.text = resources.getString(R.string.Finished)
                     mOnboardNextButton.setTextColor(resources.getColor(android.R.color.white,
                         null))
-                    buttonAnimation.start()
-
+                    mOnboardNextButton.background = resources.getDrawable(
+                        R.drawable.button_bg,
+                        null)
                 }
                 else ->{
                     mOnboardNextButton.text = getString(R.string.Next)
                     mOnboardNextButton.setTextColor(resources.getColor(R.color.colorPrimary,
                         null))
+                    mOnboardNextButton.background = resources.getDrawable(
+                        R.drawable.outline_button_bg,
+                        null)
                 }
             }
         }

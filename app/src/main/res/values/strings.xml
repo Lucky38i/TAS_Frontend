@@ -12,8 +12,9 @@
     <string name="heading_temp">Temporary Heading</string>
     <string name="desc_temp">Temporary Description</string>
     <string name="image_desc_temp">Temporary description of an image</string>
+    <string name="welcome_desc">Welcome to the Traffic Alert System.\nThis app is meant to provide
+    you with visual and auditory cues to help make you as-well as those around you a safer driver.</string>
     <string name="Next">Next</string>
     <string name="Finished">Finished</string>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Get_Started">Get Started!</string>
 </resources>
