@@ -25,7 +25,6 @@
             app:destination="@id/onboard"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
-    </fragment>
+            app:popUpTo="@id/greetingFragment"
+            app:popUpToInclusive="true" /></fragment>
 </navigation>

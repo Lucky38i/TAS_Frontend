@@ -8,6 +8,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -78,38 +79,38 @@ class OnboardFragment : Fragment() {
 
         inner class SlideViewListener : ViewPager.OnPageChangeListener {
 
-        override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrollStateChanged(state: Int) {}
 
-        override fun onPageScrolled(
-            position: Int,
-            positionOffset: Float,
-            positionOffsetPixels: Int
-        ) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {}
 
-        override fun onPageSelected(position: Int) {
-            addDotsIndicator(position)
-            mCurrentPage = position
+            override fun onPageSelected(position: Int) {
+                addDotsIndicator(position)
+                mCurrentPage = position
 
-            when (position) {
-                0 -> mOnboardNextButton.isEnabled = true
-                mDots.size - 1 -> {
-                    mOnboardNextButton.text = resources.getString(R.string.Finished)
-                    mOnboardNextButton.setTextColor(resources.getColor(android.R.color.white,
-                        null))
-                    mOnboardNextButton.background = resources.getDrawable(
-                        R.drawable.button_bg,
-                        null)
-                }
-                else ->{
-                    mOnboardNextButton.text = getString(R.string.Next)
-                    mOnboardNextButton.setTextColor(resources.getColor(R.color.colorPrimary,
-                        null))
-                    mOnboardNextButton.background = resources.getDrawable(
-                        R.drawable.outline_button_bg,
-                        null)
+                when (position) {
+                    0 -> mOnboardNextButton.isEnabled = true
+                    mDots.size - 1 -> {
+                        mOnboardNextButton.text = resources.getString(R.string.Finished)
+                        mOnboardNextButton.setTextColor(resources.getColor(android.R.color.white,
+                            null))
+                        mOnboardNextButton.background = resources.getDrawable(
+                            R.drawable.button_bg,
+                            null)
+                    }
+                    else ->{
+                        mOnboardNextButton.text = getString(R.string.Next)
+                        mOnboardNextButton.setTextColor(resources.getColor(R.color.colorPrimary,
+                            null))
+                        mOnboardNextButton.background = resources.getDrawable(
+                            R.drawable.outline_button_bg,
+                            null)
+                    }
                 }
             }
-        }
 
     }
 

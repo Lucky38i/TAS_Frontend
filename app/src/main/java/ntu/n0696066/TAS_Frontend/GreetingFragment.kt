@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -29,6 +31,12 @@ class GreetingFragment : Fragment() {
         // Init
         navController = Navigation.findNavController(view)
         mGreetingNextBtn = view.findViewById(R.id.greetingNextBtn)
+
+        // Attribute Modification
+        mGreetingNextBtn.animation = AnimationUtils.loadAnimation(this.requireContext(),
+        R.anim.fade_in)
+        mGreetingNextBtn.animation.startOffset = 2000
+        mGreetingNextBtn.animation.start()
 
         //Listeners
         mGreetingNextBtn.setOnClickListener {

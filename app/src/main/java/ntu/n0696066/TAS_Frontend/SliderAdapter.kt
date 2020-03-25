@@ -13,22 +13,16 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
 
     private lateinit var layoutInflater : LayoutInflater
     private var slideImages : IntArray = intArrayOf(
-        R.drawable.traffic_icon,
-        R.drawable.car_icon,
-        R.drawable.explosion_icon
+        R.drawable.car_vector,
+        R.drawable.features_void
     )
     private var slideHeadings = arrayOf(
         "Welcome to TAS",
-        "Headway Monitoring",
-        "Forward Collision Warning"
+        "Features"
     )
     private var slideDescs = arrayOf(
-        "Welcome to the Traffic Avoidance System, scroll through to see the features offered",
-        "This feature will make you aware if you are in eminent threat to colliding with a vehicle" +
-                "that is in-front of you",
-        "This feature provides you with discretionary headway with the vehicle ahead of you, " +
-                "this distance can be changed within the settings"
-
+        "Welcome to the Traffic Avoidance System, TAS is made to offer you vehicular awareness " +
+                "features in order to make you a safer driver"
     )
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
