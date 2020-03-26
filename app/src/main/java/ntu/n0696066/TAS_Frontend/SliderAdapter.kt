@@ -21,7 +21,8 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
         "Features"
     )
     private var slideDescs = arrayOf(
-        "TAS is meant to be used hands-free, the app will provide visual cues",
+        "TAS is meant to be used hands-free, the app will provide visual and auditory cues ensuring" +
+                "you maintain full attention to the road ahead of you.",
         "TODO"
     )
 

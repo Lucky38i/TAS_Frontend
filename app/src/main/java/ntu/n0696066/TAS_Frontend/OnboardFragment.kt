@@ -1,18 +1,17 @@
 package ntu.n0696066.TAS_Frontend
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.viewpager.widget.ViewPager
 
 
@@ -24,10 +23,54 @@ class OnboardFragment : Fragment() {
     private lateinit var sliderAdapter : SliderAdapter
     private lateinit var mDots : Array<TextView>
     private lateinit var mOnboardNextButton : Button
+    private lateinit var mOnboardSkipButton : Button
+
+    lateinit var navController : NavController
 
 
     // Attributes
     private var mCurrentPage = 0
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_onboard, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Variables
+
+        // Attribute Initialization
+        navController = Navigation.findNavController(view)
+        mSlideViewPager = view.findViewById(R.id.slideViewPager)
+        mDotLayout = view.findViewById(R.id.dotsLayout)
+        mOnboardNextButton = view.findViewById(R.id.onboardNextBtn)
+        mOnboardSkipButton = view.findViewById(R.id.onboardSkipBtn)
+        sliderAdapter = SliderAdapter(this.requireContext())
+        mSlideViewPager.adapter = sliderAdapter
+
+        // Methods Calls
+        addDotsIndicator(mCurrentPage)
+
+
+        // Listeners
+        mSlideViewPager.addOnPageChangeListener(SlideViewListener())
+        mOnboardNextButton.setOnClickListener {
+            mSlideViewPager.currentItem = mCurrentPage + 1
+            if (mOnboardNextButton.text == resources.getText(R.string.Finished))
+            {
+                // TODO create main screen fragment
+                // navController.navigate(R.id.action_greetingFragment_to_onboard)
+            }
+        }
+        mOnboardSkipButton.setOnClickListener {
+            // navController.navigate()
+        }
+    }
 
     fun addDotsIndicator(position : Int) {
         mDots = Array(sliderAdapter.count) { TextView(this.requireContext()) }
@@ -47,72 +90,32 @@ class OnboardFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_onboard, container, false)
-    }
+    inner class SlideViewListener : ViewPager.OnPageChangeListener {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        override fun onPageScrollStateChanged(state: Int) {}
 
-        // Variables
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {}
 
-        // Attribute Initialization
-        mSlideViewPager = view.findViewById(R.id.slideViewPager)
-        mDotLayout = view.findViewById(R.id.dotsLayout)
-        mOnboardNextButton = view.findViewById(R.id.onboardNextBtn)
-        sliderAdapter = SliderAdapter(this.requireContext())
-        mSlideViewPager.adapter = sliderAdapter
+        override fun onPageSelected(position: Int) {
+            addDotsIndicator(position)
+            mCurrentPage = position
 
-        // Methods Calls
-        addDotsIndicator(mCurrentPage)
-
-        // Listeners
-        mSlideViewPager.addOnPageChangeListener(SlideViewListener())
-        mOnboardNextButton.setOnClickListener {
-            mSlideViewPager.currentItem = mCurrentPage + 1
-        }
-    }
-
-        inner class SlideViewListener : ViewPager.OnPageChangeListener {
-
-            override fun onPageScrollStateChanged(state: Int) {}
-
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {}
-
-            override fun onPageSelected(position: Int) {
-                addDotsIndicator(position)
-                mCurrentPage = position
-
-                when (position) {
-                    0 -> mOnboardNextButton.isEnabled = true
-                    mDots.size - 1 -> {
-                        mOnboardNextButton.text = resources.getString(R.string.Finished)
-                        mOnboardNextButton.setTextColor(resources.getColor(android.R.color.white,
-                            null))
-                        mOnboardNextButton.background = resources.getDrawable(
-                            R.drawable.button_bg,
-                            null)
-                    }
-                    else ->{
-                        mOnboardNextButton.text = getString(R.string.Next)
-                        mOnboardNextButton.setTextColor(resources.getColor(R.color.colorPrimary,
-                            null))
-                        mOnboardNextButton.background = resources.getDrawable(
-                            R.drawable.outline_button_bg,
-                            null)
-                    }
+            when (position) {
+                0 -> mOnboardNextButton.isEnabled = true
+                mDots.size - 1 -> {
+                    mOnboardNextButton.text = resources.getString(R.string.Finished)
+                }
+                else ->{
+                    mOnboardNextButton.text = getString(R.string.Next)
                 }
             }
+        }
 
-    }
+}
 
 
 
