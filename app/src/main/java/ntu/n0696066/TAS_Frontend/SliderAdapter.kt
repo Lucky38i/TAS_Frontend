@@ -14,16 +14,23 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
     private lateinit var layoutInflater : LayoutInflater
     private var slideImages : IntArray = intArrayOf(
         R.drawable.car_vector,
-        R.drawable.features_void
+        R.drawable.teamwork_vector,
+        R.drawable.features_vector,
+        R.drawable.confirmation_vector
     )
     private var slideHeadings = arrayOf(
         "Welcome to TAS",
-        "Features"
+        "Safety",
+        "Features",
+        "Get Started"
     )
     private var slideDescs = arrayOf(
         "TAS is meant to be used hands-free, the app will provide visual and auditory cues ensuring" +
-                "you maintain full attention to the road ahead of you.",
-        "TODO"
+                " you the freedom to focus on the road ahead",
+        "TAS uses a special communication link to provide you with cues to ensure your safety.",
+        "Features include, forward-collision warning, headway monitoring and more through easy to" +
+                "interpret images and animations.",
+        "Explore what TAS has to offer"
     )
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {

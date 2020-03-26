@@ -1,11 +1,12 @@
 package ntu.n0696066.TAS_Frontend
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -26,6 +27,7 @@ class OnboardFragment : Fragment() {
     private lateinit var mOnboardSkipButton : Button
 
     lateinit var navController : NavController
+    lateinit var buttonToFilled : AnimatorSet
 
 
     // Attributes
@@ -52,10 +54,13 @@ class OnboardFragment : Fragment() {
         mOnboardSkipButton = view.findViewById(R.id.onboardSkipBtn)
         sliderAdapter = SliderAdapter(this.requireContext())
         mSlideViewPager.adapter = sliderAdapter
-
+        buttonToFilled = AnimatorInflater.loadAnimator(view.context,
+            R.animator.button_outline_to_filled) as AnimatorSet
         // Methods Calls
         addDotsIndicator(mCurrentPage)
-
+        buttonToFilled.apply {
+            setTarget(mOnboardNextButton)
+        }
 
         // Listeners
         mSlideViewPager.addOnPageChangeListener(SlideViewListener())
@@ -80,17 +85,18 @@ class OnboardFragment : Fragment() {
             mDots[i] = TextView(this.requireContext())
             mDots[i].text = Html.fromHtml("&#8226;", 0)
             mDots[i].textSize = 35F
-            mDots[i].setTextColor(resources.getColor( android.R.color.white, null))
+            mDots[i].setTextColor(resources.getColor( R.color.colorGrey, null))
 
             mDotLayout.addView(mDots[i])
 
         }
         if(mDots.isNotEmpty()) {
-            mDots[position].setTextColor(resources.getColor( R.color.colorAccent, null))
+            mDots[position].setTextColor(resources.getColor( R.color.colorPrimary, null))
         }
     }
 
     inner class SlideViewListener : ViewPager.OnPageChangeListener {
+        var ranAnim : Boolean = false
 
         override fun onPageScrollStateChanged(state: Int) {}
 
@@ -105,12 +111,20 @@ class OnboardFragment : Fragment() {
             mCurrentPage = position
 
             when (position) {
-                0 -> mOnboardNextButton.isEnabled = true
                 mDots.size - 1 -> {
                     mOnboardNextButton.text = resources.getString(R.string.Finished)
+                    buttonToFilled.start()
+                    ranAnim = true
                 }
-                else ->{
-                    mOnboardNextButton.text = getString(R.string.Next)
+                mDots.size - 2 -> {
+                    mOnboardNextButton.text = resources.getString(R.string.Next)
+                    if(ranAnim){
+                        buttonToFilled.reverse()
+                        ranAnim = false
+                    }
+                }
+                else -> {
+
                 }
             }
         }
