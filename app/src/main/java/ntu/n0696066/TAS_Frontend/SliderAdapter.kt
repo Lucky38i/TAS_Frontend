@@ -1,4 +1,4 @@
-package ntu.n0696066.TAS_Frontend
+package ntu.n0696066.tas_frontend
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager.widget.PagerAdapter
+import ntu.n0696066.tas_frontend.R
 
 class SliderAdapter(private val context: Context) : PagerAdapter() {
 

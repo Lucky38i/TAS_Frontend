@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/splash"
-        android:name="ntu.n0696066.TAS_Frontend.Splash"
+        android:name="ntu.n0696066.tas_frontend.Splash"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" />
     <fragment
         android:id="@+id/onboard"
-        android:name="ntu.n0696066.TAS_Frontend.OnboardFragment"
+        android:name="ntu.n0696066.tas_frontend.OnboardFragment"
         android:label="fragment_onboard"
         tools:layout="@layout/fragment_onboard" />
     <fragment
         android:id="@+id/greetingFragment"
-        android:name="ntu.n0696066.TAS_Frontend.GreetingFragment"
+        android:name="ntu.n0696066.tas_frontend.GreetingFragment"
         android:label="fragment_greeting"
         tools:layout="@layout/fragment_greeting" >
         <action

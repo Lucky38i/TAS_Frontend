@@ -1,4 +1,4 @@
-package ntu.n0696066.TAS_Frontend
+package ntu.n0696066.tas_frontend
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import ntu.n0696066.tas_frontend.R
 
 class Splash : Fragment() {
     private lateinit var splashProgress : ProgressBar

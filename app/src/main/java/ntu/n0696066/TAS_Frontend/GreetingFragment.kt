@@ -1,4 +1,4 @@
-package ntu.n0696066.TAS_Frontend
+package ntu.n0696066.tas_frontend
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

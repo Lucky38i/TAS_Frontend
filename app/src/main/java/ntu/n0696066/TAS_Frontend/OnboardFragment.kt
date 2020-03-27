@@ -1,4 +1,4 @@
-package ntu.n0696066.TAS_Frontend
+package ntu.n0696066.tas_frontend
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
@@ -27,6 +27,7 @@ class OnboardFragment : Fragment() {
     private var mCurrentPage = 0
     lateinit var navController : NavController
     lateinit var buttonToFilled : AnimatorSet
+    lateinit var buttonVisibility : AnimatorSet
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,11 +49,14 @@ class OnboardFragment : Fragment() {
         sliderAdapter = SliderAdapter(this.requireContext())
         buttonToFilled = AnimatorInflater.loadAnimator(view.context,
             R.animator.button_outline_to_filled) as AnimatorSet
+        buttonVisibility = AnimatorInflater.loadAnimator(view.context,
+            R.animator.button_visibility) as AnimatorSet
 
         // Methods Calls & Sets
         mSlideViewPager.adapter = sliderAdapter
         buttonToFilled.apply { setTarget(mOnboardNextButton) }
         mWordDotsIndicator.setViewPager(mSlideViewPager)
+        buttonVisibility.apply { setTarget(mOnboardSkipButton) }
 
         // Listeners
         mSlideViewPager.addOnPageChangeListener(SlideViewListener())
@@ -86,12 +90,14 @@ class OnboardFragment : Fragment() {
                 sliderAdapter.count - 1 -> {
                     mOnboardNextButton.text = resources.getString(R.string.Finished)
                     buttonToFilled.start()
+                    buttonVisibility.start()
                     ranAnim = true
                 }
                 sliderAdapter.count - 2 -> {
                     mOnboardNextButton.text = resources.getString(R.string.Next)
                     if(ranAnim){
                         buttonToFilled.reverse()
+                        buttonVisibility.reverse()
                         ranAnim = false
                     }
                 }

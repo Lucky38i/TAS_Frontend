@@ -65,6 +65,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
+        android:alpha="1.0"
         android:enabled="true"
         android:focusable="false"
         android:fontFamily="@font/roboto_bold"
