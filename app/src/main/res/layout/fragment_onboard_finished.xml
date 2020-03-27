@@ -33,6 +33,7 @@
         app:dotsSize="8dp"
         app:dotsSpacing="4dp"
         app:dotsStrokeWidth="2dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/onboardNextBtn"
         app:layout_constraintStart_toEndOf="@+id/onboardSkipBtn" />
@@ -40,8 +41,10 @@
     <Button
         android:id="@+id/onboardNextBtn"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginBottom="8dp"
         android:enabled="true"
         android:focusable="false"
@@ -50,11 +53,9 @@
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         android:theme="@style/Theme.MaterialComponents"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/wormDotsIndicator"
+        app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="@color/colorPrimary" />
 
     <Button
@@ -72,6 +73,7 @@
         android:textAllCaps="true"
         android:textColor="@color/colorOnPrimary"
         android:textSize="16sp"
+        android:visibility="gone"
         android:theme="@style/Theme.MaterialComponents"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -3,35 +3,30 @@ package ntu.n0696066.TAS_Frontend
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.viewpager.widget.ViewPager
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 
 class OnboardFragment : Fragment() {
 
     // UI Elements
     private lateinit var mSlideViewPager : ViewPager
-    private lateinit var mDotLayout : LinearLayout
     private lateinit var sliderAdapter : SliderAdapter
-    private lateinit var mDots : Array<TextView>
     private lateinit var mOnboardNextButton : Button
     private lateinit var mOnboardSkipButton : Button
-
-    lateinit var navController : NavController
-    lateinit var buttonToFilled : AnimatorSet
-
+    private lateinit var mWordDotsIndicator : WormDotsIndicator
 
     // Attributes
     private var mCurrentPage = 0
+    lateinit var navController : NavController
+    lateinit var buttonToFilled : AnimatorSet
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,23 +39,20 @@ class OnboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Variables
-
         // Attribute Initialization
         navController = Navigation.findNavController(view)
         mSlideViewPager = view.findViewById(R.id.slideViewPager)
-        mDotLayout = view.findViewById(R.id.dotsLayout)
+        mWordDotsIndicator = view.findViewById(R.id.wormDotsIndicator)
         mOnboardNextButton = view.findViewById(R.id.onboardNextBtn)
         mOnboardSkipButton = view.findViewById(R.id.onboardSkipBtn)
         sliderAdapter = SliderAdapter(this.requireContext())
-        mSlideViewPager.adapter = sliderAdapter
         buttonToFilled = AnimatorInflater.loadAnimator(view.context,
             R.animator.button_outline_to_filled) as AnimatorSet
-        // Methods Calls
-        addDotsIndicator(mCurrentPage)
-        buttonToFilled.apply {
-            setTarget(mOnboardNextButton)
-        }
+
+        // Methods Calls & Sets
+        mSlideViewPager.adapter = sliderAdapter
+        buttonToFilled.apply { setTarget(mOnboardNextButton) }
+        mWordDotsIndicator.setViewPager(mSlideViewPager)
 
         // Listeners
         mSlideViewPager.addOnPageChangeListener(SlideViewListener())
@@ -68,30 +60,11 @@ class OnboardFragment : Fragment() {
             mSlideViewPager.currentItem = mCurrentPage + 1
             if (mOnboardNextButton.text == resources.getText(R.string.Finished))
             {
-                // TODO create main screen fragment
-                // navController.navigate(R.id.action_greetingFragment_to_onboard)
+                // TODO navigate to main fragment
             }
         }
         mOnboardSkipButton.setOnClickListener {
             // navController.navigate()
-        }
-    }
-
-    fun addDotsIndicator(position : Int) {
-        mDots = Array(sliderAdapter.count) { TextView(this.requireContext()) }
-        mDotLayout.removeAllViews()
-
-        for (i in mDots.indices) {
-            mDots[i] = TextView(this.requireContext())
-            mDots[i].text = Html.fromHtml("&#8226;", 0)
-            mDots[i].textSize = 35F
-            mDots[i].setTextColor(resources.getColor( R.color.colorGrey, null))
-
-            mDotLayout.addView(mDots[i])
-
-        }
-        if(mDots.isNotEmpty()) {
-            mDots[position].setTextColor(resources.getColor( R.color.colorPrimary, null))
         }
     }
 
@@ -107,16 +80,15 @@ class OnboardFragment : Fragment() {
         ) {}
 
         override fun onPageSelected(position: Int) {
-            addDotsIndicator(position)
             mCurrentPage = position
 
             when (position) {
-                mDots.size - 1 -> {
+                sliderAdapter.count - 1 -> {
                     mOnboardNextButton.text = resources.getString(R.string.Finished)
                     buttonToFilled.start()
                     ranAnim = true
                 }
-                mDots.size - 2 -> {
+                sliderAdapter.count - 2 -> {
                     mOnboardNextButton.text = resources.getString(R.string.Next)
                     if(ranAnim){
                         buttonToFilled.reverse()
@@ -124,13 +96,8 @@ class OnboardFragment : Fragment() {
                     }
                 }
                 else -> {
-
                 }
             }
         }
-
-}
-
-
-
+    }
 }
