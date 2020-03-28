@@ -17,12 +17,14 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
         R.drawable.car_vector,
         R.drawable.teamwork_vector,
         R.drawable.features_vector,
+        R.drawable.warning_vector,
         R.drawable.confirmation_vector
     )
     private var slideHeadings = arrayOf(
         "Welcome to TAS",
         "Safety",
         "Features",
+        "Disclaimer",
         "Get Started"
     )
     private var slideDescs = arrayOf(
@@ -31,6 +33,8 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
         "TAS uses a special communication link to provide you with cues to ensure your safety.",
         "Features include, forward-collision warning, headway monitoring and more through easy to" +
                 "interpret images and animations.",
+        "Please be warned this is a work in progress as-well as a demonstrative platform and the " +
+                "apps main purpose is to demonstrate V2V and its advantages for drivers",
         "Explore what TAS has to offer"
     )
 

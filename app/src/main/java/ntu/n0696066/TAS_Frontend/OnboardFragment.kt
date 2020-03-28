@@ -1,6 +1,8 @@
 package ntu.n0696066.tas_frontend
 
+import android.animation.Animator
 import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -52,6 +54,8 @@ class OnboardFragment : Fragment() {
         buttonVisibility = AnimatorInflater.loadAnimator(view.context,
             R.animator.button_visibility) as AnimatorSet
 
+        // Inner Attributes
+
         // Methods Calls & Sets
         mSlideViewPager.adapter = sliderAdapter
         buttonToFilled.apply { setTarget(mOnboardNextButton) }
@@ -59,17 +63,27 @@ class OnboardFragment : Fragment() {
         buttonVisibility.apply { setTarget(mOnboardSkipButton) }
 
         // Listeners
+        buttonToFilled.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                super.onAnimationEnd(animation)
+                if (mCurrentPage == sliderAdapter.count - 1 ){
+                    mOnboardNextButton.text = resources.getString(R.string.Finished)
+                } else if (mCurrentPage == sliderAdapter.count - 2) {
+                    mOnboardNextButton.text = resources.getString(R.string.Next)
+                }
+            }
+        })
         mSlideViewPager.addOnPageChangeListener(SlideViewListener())
         mOnboardNextButton.setOnClickListener {
             mSlideViewPager.currentItem = mCurrentPage + 1
-            if (mOnboardNextButton.text == resources.getText(R.string.Finished))
+            if ((mOnboardNextButton.text == resources.getText(R.string.Finished)) && (mCurrentPage == sliderAdapter.count -1))
             {
-                // TODO navigate to main fragment
+                navController.navigate(R.id.action_onboard_to_mainFragment)
             }
         }
-        mOnboardSkipButton.setOnClickListener {
-            // navController.navigate()
-        }
+
+        // Attributes
+
     }
 
     inner class SlideViewListener : ViewPager.OnPageChangeListener {
@@ -88,21 +102,18 @@ class OnboardFragment : Fragment() {
 
             when (position) {
                 sliderAdapter.count - 1 -> {
-                    mOnboardNextButton.text = resources.getString(R.string.Finished)
                     buttonToFilled.start()
                     buttonVisibility.start()
                     ranAnim = true
                 }
                 sliderAdapter.count - 2 -> {
-                    mOnboardNextButton.text = resources.getString(R.string.Next)
                     if(ranAnim){
                         buttonToFilled.reverse()
                         buttonVisibility.reverse()
                         ranAnim = false
                     }
                 }
-                else -> {
-                }
+                else -> { }
             }
         }
     }
