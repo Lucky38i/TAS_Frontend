@@ -11,14 +11,15 @@
     <string name="fcw"> Forward Collision Warning</string>
     <string name="heading_temp">Temporary Heading</string>
     <string name="desc_temp">Temporary Description</string>
-    <string name="image_desc_temp">Temporary description of an image</string>
+    <string name="onboard_item_image_desc">Placeholder image for onboarding mapping</string>
     <string name="welcome_desc">Welcome to the Traffic Alert System.\nThis app is meant to provide
     you with visual and auditory cues to help make you as-well as those around you a safer driver.</string>
     <string name="Next">Next</string>
     <string name="Finished">Finished</string>
     <string name="Get_Started">Get Started!</string>
     <string name="Skip">Skip</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Headway_Temp">0.0</string>
+    <string name="main_img_right">An image with an arrow pointing to the right</string>
+    <string name="main_img_left">An image with an arrow pointing to the left</string>
+    <string name="main_img_car">An image with a car outline it\'s neutral state</string>
 </resources>

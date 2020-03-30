@@ -11,13 +11,13 @@
         android:id="@+id/slide_image"
         android:layout_width="414dp"
         android:layout_height="410dp"
-        android:contentDescription="@string/image_desc_temp"
+        android:contentDescription="@string/onboard_item_image_desc"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/void_vector" />
+        app:srcCompat="@drawable/vector_void" />
 
     <TextView
         android:id="@+id/slide_heading"

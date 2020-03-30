@@ -52,7 +52,7 @@ class OnboardFragment : Fragment() {
         buttonToFilled = AnimatorInflater.loadAnimator(view.context,
             R.animator.button_outline_to_filled) as AnimatorSet
         buttonVisibility = AnimatorInflater.loadAnimator(view.context,
-            R.animator.button_visibility) as AnimatorSet
+            R.animator.button_visibility_to_invisible) as AnimatorSet
 
         // Inner Attributes
 
@@ -73,7 +73,34 @@ class OnboardFragment : Fragment() {
                 }
             }
         })
-        mSlideViewPager.addOnPageChangeListener(SlideViewListener())
+        mSlideViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            private var ranAnim : Boolean = false
+
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float,
+                                        positionOffsetPixels: Int ) {}
+
+            override fun onPageSelected(position: Int) {
+                mCurrentPage = position
+
+                when (position) {
+                    sliderAdapter.count - 1 -> {
+                        buttonToFilled.start()
+                        buttonVisibility.start()
+                        ranAnim = true
+                    }
+                    sliderAdapter.count - 2 -> {
+                        if(ranAnim){
+                            buttonToFilled.reverse()
+                            buttonVisibility.reverse()
+                            ranAnim = false
+                        }
+                    }
+                    else -> { }
+                }
+            }
+        })
         mOnboardNextButton.setOnClickListener {
             mSlideViewPager.currentItem = mCurrentPage + 1
             if ((mOnboardNextButton.text == resources.getText(R.string.Finished)) && (mCurrentPage == sliderAdapter.count -1))
@@ -81,40 +108,8 @@ class OnboardFragment : Fragment() {
                 navController.navigate(R.id.action_onboard_to_mainFragment)
             }
         }
-
-        // Attributes
-
-    }
-
-    inner class SlideViewListener : ViewPager.OnPageChangeListener {
-        var ranAnim : Boolean = false
-
-        override fun onPageScrollStateChanged(state: Int) {}
-
-        override fun onPageScrolled(
-            position: Int,
-            positionOffset: Float,
-            positionOffsetPixels: Int
-        ) {}
-
-        override fun onPageSelected(position: Int) {
-            mCurrentPage = position
-
-            when (position) {
-                sliderAdapter.count - 1 -> {
-                    buttonToFilled.start()
-                    buttonVisibility.start()
-                    ranAnim = true
-                }
-                sliderAdapter.count - 2 -> {
-                    if(ranAnim){
-                        buttonToFilled.reverse()
-                        buttonVisibility.reverse()
-                        ranAnim = false
-                    }
-                }
-                else -> { }
-            }
+        mOnboardSkipButton.setOnClickListener {
+            navController.navigate(R.id.action_onboard_to_mainFragment)
         }
     }
 }

@@ -8,17 +8,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager.widget.PagerAdapter
-import ntu.n0696066.tas_frontend.R
 
 class SliderAdapter(private val context: Context) : PagerAdapter() {
 
     private lateinit var layoutInflater : LayoutInflater
     private var slideImages : IntArray = intArrayOf(
-        R.drawable.car_vector,
-        R.drawable.teamwork_vector,
-        R.drawable.features_vector,
-        R.drawable.warning_vector,
-        R.drawable.confirmation_vector
+        R.drawable.vector_car,
+        R.drawable.vector_teamwork,
+        R.drawable.vector_features,
+        R.drawable.vector_warning,
+        R.drawable.vector_confirmation
     )
     private var slideHeadings = arrayOf(
         "Welcome to TAS",
@@ -36,6 +35,14 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
         "Please be warned this is a work in progress as-well as a demonstrative platform and the " +
                 "apps main purpose is to demonstrate V2V and its advantages for drivers",
         "Explore what TAS has to offer"
+    )
+
+    private var contentDesc = arrayOf(
+        "An image of a car",
+        "An image displaying teamwork to achieve a common goal",
+        "An image displaying a features framework",
+        "An image with a warning symbol",
+        "An image with a checkpoint outlining confirmation"
     )
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -56,6 +63,7 @@ class SliderAdapter(private val context: Context) : PagerAdapter() {
         val slideDescription : TextView = view.findViewById(R.id.slide_desc)
 
         slideImageView.setImageResource(slideImages[position])
+        slideImageView.contentDescription = contentDesc[position]
         slideHeading.text = slideHeadings[position]
         slideDescription.text = slideDescs[position]
 

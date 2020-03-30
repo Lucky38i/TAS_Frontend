@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFragment"/>
+    tools:context=".MainFragment">
+
+        <ImageView
+            android:id="@+id/imgRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/vector_arrow_right"
+            android:alpha="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/imgCar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imgLeft"
+            android:contentDescription="@string/main_img_right" />
+
+        <ImageView
+            android:id="@+id/imgLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vector_arrow_left"
+            android:alpha="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/imgCar"
+            app:layout_constraintEnd_toStartOf="@+id/imgRight"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/main_img_left"/>
+
+        <ImageView
+            android:id="@+id/imgCar"
+            android:layout_width="243dp"
+            android:layout_height="210dp"
+            android:src="@drawable/vector_car_state"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/main_img_car"/>
+
+        <TextView
+            android:id="@+id/txtHeadway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/atomic_age"
+            android:text="@string/Headway_Temp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgCar"
+            app:layout_constraintVertical_bias="0.209" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/mainBottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/colorPrimary"
+            app:menu="@menu/bottomappbar_menu"
+            app:navigationIcon="@drawable/ic_vector_menu" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
