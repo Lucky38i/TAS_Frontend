@@ -67,9 +67,9 @@ class OnboardFragment : Fragment() {
             override fun onAnimationEnd(animation: Animator?) {
                 super.onAnimationEnd(animation)
                 if (mCurrentPage == sliderAdapter.count - 1 ){
-                    mOnboardNextButton.text = resources.getString(R.string.Finished)
+                    mOnboardNextButton.text = resources.getString(R.string.txt_finished)
                 } else if (mCurrentPage == sliderAdapter.count - 2) {
-                    mOnboardNextButton.text = resources.getString(R.string.Next)
+                    mOnboardNextButton.text = resources.getString(R.string.txt_next)
                 }
             }
         })
@@ -103,7 +103,7 @@ class OnboardFragment : Fragment() {
         })
         mOnboardNextButton.setOnClickListener {
             mSlideViewPager.currentItem = mCurrentPage + 1
-            if ((mOnboardNextButton.text == resources.getText(R.string.Finished)) && (mCurrentPage == sliderAdapter.count -1))
+            if ((mOnboardNextButton.text == resources.getText(R.string.txt_finished)) && (mCurrentPage == sliderAdapter.count -1))
             {
                 navController.navigate(R.id.action_onboard_to_mainFragment)
             }

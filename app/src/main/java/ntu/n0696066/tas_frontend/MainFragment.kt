@@ -7,8 +7,9 @@ import androidx.fragment.app.Fragment
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.bottomappbar.BottomAppBar
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -17,6 +18,9 @@ class MainFragment : Fragment() {
     private lateinit var mImgLeft : ImageView
     private lateinit var mImgRight : ImageView
     private lateinit var mTxtHeadway : TextView
+    private lateinit var mMainNavView : NavigationView
+    private lateinit var mMainDrawerLayout : DrawerLayout
+    private lateinit var mDrawerToggle : ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -40,10 +44,11 @@ class MainFragment : Fragment() {
         mImgLeft = view.findViewById(R.id.imgLeft)
         mImgRight = view.findViewById(R.id.imgRight)
         mTxtHeadway = view.findViewById(R.id.txtHeadway)
+        mMainNavView = view.findViewById(R.id.navViewMain)
+        mMainDrawerLayout = view.findViewById(R.id.drawerLayoutMain)
 
         // method calls
-        mainBottomAppBar.replaceMenu(R.menu.bottomappbar_menu)
-
+        mainBottomAppBar.replaceMenu(R.menu.menu_bottombar)
 
         // Listeners
         mainBottomAppBar.setOnMenuItemClickListener { item ->
@@ -55,11 +60,13 @@ class MainFragment : Fragment() {
                 else -> false
             }
         }
-
+        mainBottomAppBar.setNavigationOnClickListener {
+            Toast.makeText(requireContext(), "Navigation Clicked", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.bottomappbar_menu, menu)
+        inflater.inflate(R.menu.menu_bottombar, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

@@ -1,25 +1,28 @@
 <resources>
     <string name="app_name">TAS</string>
-    <string name="edit_message">Enter your message</string>
-    <string name="button_send">Send</string>
-    <string name="ip_address_text">IP Address</string>
-    <string name="port_text">Port</string>
-    <string name="connect_button">Connect</string>
-    <string name="connected_checkbox">Connected</string>
-    <string name="dialog_message">One of the required fields are empty</string>
-    <string name="dialog_title">Alert Dialog</string>
-    <string name="fcw"> Forward Collision Warning</string>
-    <string name="heading_temp">Temporary Heading</string>
+
+    // Text
+    <string name="txt_next">Next</string>
+    <string name="txt_finished">Finished</string>
+    <string name="txt_get_started">Get Started!</string>
+    <string name="txt_skip">Skip</string>
+    <string name="txt_settings">Settings</string>
+    <string name="txt_fcw_demo">FCW Demo</string>
+    <string name="txt_demos">Demos</string>
+    <string name="txt_rcw_demo">RCW Demo</string>
+
+    // Titles
+    <string name="title_onboarding_temp_heading">Temporary Heading</string>
+
+    // Descriptions
+    <string name="desc_main_img_right">An image with an arrow pointing to the right</string>
+    <string name="desc_main_img_left">An image with an arrow pointing to the left</string>
+    <string name="desc_main_img_car">An image with a car outline it\'s neutral state</string>
     <string name="desc_temp">Temporary Description</string>
-    <string name="onboard_item_image_desc">Placeholder image for onboarding mapping</string>
-    <string name="welcome_desc">Welcome to the Traffic Alert System.\nThis app is meant to provide
+    <string name="desc_onboard_item_image">Placeholder image for onboarding mapping</string>
+    <string name="desc_welcome">Welcome to the Traffic Alert System.\nThis app is meant to provide
     you with visual and auditory cues to help make you as-well as those around you a safer driver.</string>
-    <string name="Next">Next</string>
-    <string name="Finished">Finished</string>
-    <string name="Get_Started">Get Started!</string>
-    <string name="Skip">Skip</string>
-    <string name="Headway_Temp">0.0</string>
-    <string name="main_img_right">An image with an arrow pointing to the right</string>
-    <string name="main_img_left">An image with an arrow pointing to the left</string>
-    <string name="main_img_car">An image with a car outline it\'s neutral state</string>
+    <string name="txt_headway_demo">Headway Demo</string>
+    <string name="txt_lcw_demo">LCW Demo</string>
+
 </resources>
