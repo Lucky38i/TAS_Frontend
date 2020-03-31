@@ -4,29 +4,32 @@
 
     <item android:title="@string/txt_demos">
         <menu>
-            <item
-                android:id="@+id/nav_fcw"
-                android:title="@string/txt_fcw_demo"
-                android:icon="@drawable/ic_vector_fcw"
-                app:showAsAction="ifRoom"/>
+            <group>
+                <item
+                    android:id="@+id/nav_fcw"
+                    android:title="@string/txt_fcw_demo"
+                    android:icon="@drawable/ic_vector_fcw"
+                    app:showAsAction="ifRoom"/>
 
-            <item
-                android:id="@+id/nac_rcw"
-                android:title="@string/txt_rcw_demo"
-                android:icon="@drawable/ic_vector_rcw"
-                app:showAsAction="ifRoom"/>
+                <item
+                    android:id="@+id/nav_rcw"
+                    android:title="@string/txt_rcw_demo"
+                    android:icon="@drawable/ic_vector_rcw"
+                    app:showAsAction="ifRoom"/>
 
-            <item
-                android:id="@+id/nav_headway"
-                android:title="@string/txt_headway_demo"
-                android:icon="@drawable/ic_vector_headway"
-                app:showAsAction="ifRoom"/>
+                <item
+                    android:id="@+id/nav_headway"
+                    android:title="@string/txt_headway_demo"
+                    android:icon="@drawable/ic_vector_headway"
+                    app:showAsAction="ifRoom"/>
 
-            <item
-                android:id="@+id/nav_lcw"
-                android:title="@string/txt_lcw_demo"
-                android:icon="@drawable/ic_vector_lcw"
-                app:showAsAction="ifRoom"/>
+                <item
+                    android:id="@+id/nav_lcw"
+                    android:title="@string/txt_lcw_demo"
+                    android:icon="@drawable/ic_vector_lcw"
+                    app:showAsAction="ifRoom"/>
+            </group>
+
         </menu>
     </item>
 </menu>

@@ -58,6 +58,7 @@
                 android:fontFamily="@font/atomic_age"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
+                android:text="Test"
                 android:textSize="48sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,11 +82,10 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navViewMain"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/menu_navdraw"
-        />
+        android:id="@+id/navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        app:menu="@menu/menu_navdraw"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

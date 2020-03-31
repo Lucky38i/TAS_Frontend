@@ -2,14 +2,15 @@ package ntu.n0696066.tas_frontend
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log.d
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -18,9 +19,11 @@ class MainFragment : Fragment() {
     private lateinit var mImgLeft : ImageView
     private lateinit var mImgRight : ImageView
     private lateinit var mTxtHeadway : TextView
-    private lateinit var mMainNavView : NavigationView
     private lateinit var mMainDrawerLayout : DrawerLayout
-    private lateinit var mDrawerToggle : ActionBarDrawerToggle
+
+    private val sharedModel : FragmentSharedModel by lazy {
+        ViewModelProvider(this).get(FragmentSharedModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -44,7 +47,6 @@ class MainFragment : Fragment() {
         mImgLeft = view.findViewById(R.id.imgLeft)
         mImgRight = view.findViewById(R.id.imgRight)
         mTxtHeadway = view.findViewById(R.id.txtHeadway)
-        mMainNavView = view.findViewById(R.id.navViewMain)
         mMainDrawerLayout = view.findViewById(R.id.drawerLayoutMain)
 
         // method calls
@@ -54,28 +56,45 @@ class MainFragment : Fragment() {
         mainBottomAppBar.setOnMenuItemClickListener { item ->
             when(item.itemId) {
                 R.id.app_bar_settings -> {
-                    Toast.makeText(requireContext(), "Settings Click", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Settings Clicked", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
             }
         }
         mainBottomAppBar.setNavigationOnClickListener {
-            Toast.makeText(requireContext(), "Navigation Clicked", Toast.LENGTH_SHORT).show()
+            val bottomNavigationDrawerFragment = BottomNavigationDrawerFragment()
+            bottomNavigationDrawerFragment.show(this.parentFragmentManager,
+                bottomNavigationDrawerFragment.tag)
         }
+
+        sharedModel.itemId.observe(this.viewLifecycleOwner,
+            androidx.lifecycle.Observer { chosenID ->
+
+                d("SharedModel", chosenID.toString())
+                when (chosenID) {
+                    R.id.nav_fcw -> {
+                        mTxtHeadway.text = "fcw chosen"
+                    }
+                    R.id.nav_lcw -> {
+                        mTxtHeadway.text = "lcw chosen"
+                    }
+                    R.id.nav_rcw -> {
+                        mTxtHeadway.text = "rcw chosen"
+                    }
+                    R.id.nav_headway -> {
+                        mTxtHeadway.text = "headway chosen"
+                    }
+                    else -> {}
+
+                }
+
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_bottombar, menu)
         super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.app_bar_settings -> Toast.makeText(this.requireContext(),
-                "Settings Pressed", Toast.LENGTH_SHORT).show()
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     fun simulateFcw() {
