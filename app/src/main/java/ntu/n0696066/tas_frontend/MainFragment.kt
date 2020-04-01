@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -20,7 +20,6 @@ class MainFragment : Fragment() {
     private lateinit var mImgRight : ImageView
     private lateinit var mTxtHeadway : TextView
     private lateinit var mMainDrawerLayout : DrawerLayout
-    private lateinit var mMainNavView : NavigationView
 
     private val sharedModel : FragmentSharedModel by lazy {
         ViewModelProvider(this).get(FragmentSharedModel::class.java)
@@ -49,7 +48,6 @@ class MainFragment : Fragment() {
         mImgRight = view.findViewById(R.id.imgRight)
         mTxtHeadway = view.findViewById(R.id.txtHeadway)
         mMainDrawerLayout = view.findViewById(R.id.drawerLayoutMain)
-        mMainNavView = view.findViewById(R.id.mainNavView)
 
         // method calls
         mainBottomAppBar.replaceMenu(R.menu.menu_bottombar)
@@ -65,8 +63,33 @@ class MainFragment : Fragment() {
             }
         }
         mainBottomAppBar.setNavigationOnClickListener {
-            mMainDrawerLayout.openDrawer(mMainNavView)
+            val bottomNavigationDrawerFragment = BottomNavigationDrawerFragment()
+            bottomNavigationDrawerFragment.show(this.parentFragmentManager,
+                bottomNavigationDrawerFragment.tag)
         }
+
+        sharedModel.itemId.observe(this.viewLifecycleOwner,
+            androidx.lifecycle.Observer { chosenID ->
+
+                d("SharedModel", chosenID.toString())
+                when (chosenID) {
+                    R.id.nav_fcw -> {
+                        mTxtHeadway.text = "fcw chosen"
+                    }
+                    R.id.nav_lcw -> {
+                        mTxtHeadway.text = "lcw chosen"
+                    }
+                    R.id.nav_rcw -> {
+                        mTxtHeadway.text = "rcw chosen"
+                    }
+                    R.id.nav_headway -> {
+                        mTxtHeadway.text = "headway chosen"
+                    }
+                    else -> {}
+
+                }
+
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
