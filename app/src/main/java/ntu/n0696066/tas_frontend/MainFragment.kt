@@ -9,8 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -21,9 +21,8 @@ class MainFragment : Fragment() {
     private lateinit var mTxtHeadway : TextView
     private lateinit var mMainDrawerLayout : DrawerLayout
 
-    private val sharedModel : FragmentSharedModel by lazy {
-        ViewModelProvider(this).get(FragmentSharedModel::class.java)
-    }
+    private val bottomNavigationDrawerFragment = BottomNavigationDrawerFragment()
+    private val sharedModel : FragmentSharedModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -63,32 +62,18 @@ class MainFragment : Fragment() {
             }
         }
         mainBottomAppBar.setNavigationOnClickListener {
-            val bottomNavigationDrawerFragment = BottomNavigationDrawerFragment()
             bottomNavigationDrawerFragment.show(this.parentFragmentManager,
                 bottomNavigationDrawerFragment.tag)
         }
 
-        sharedModel.itemId.observe(this.viewLifecycleOwner,
+        sharedModel.item.observe(this.viewLifecycleOwner,
             androidx.lifecycle.Observer { chosenID ->
-
-                d("SharedModel", chosenID.toString())
-                when (chosenID) {
-                    R.id.nav_fcw -> {
-                        mTxtHeadway.text = "fcw chosen"
-                    }
-                    R.id.nav_lcw -> {
-                        mTxtHeadway.text = "lcw chosen"
-                    }
-                    R.id.nav_rcw -> {
-                        mTxtHeadway.text = "rcw chosen"
-                    }
-                    R.id.nav_headway -> {
-                        mTxtHeadway.text = "headway chosen"
-                    }
-                    else -> {}
-
+                when (chosenID.itemId) {
+                    R.id.nav_fcw -> mTxtHeadway.text = "fcw chosen"
+                    R.id.nav_lcw -> mTxtHeadway.text = "lcw chosen"
+                    R.id.nav_rcw -> mTxtHeadway.text = "rcw chosen"
+                    R.id.nav_headway -> mTxtHeadway.text = "headway chosen"
                 }
-
         })
     }
 
