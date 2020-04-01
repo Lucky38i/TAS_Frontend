@@ -82,10 +82,10 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
+        android:id="@+id/mainNavView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|bottom"
+        android:layout_gravity="bottom|top"
         app:menu="@menu/menu_navdraw"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
