@@ -1,8 +1,9 @@
 package ntu.n0696066.tas_frontend
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log.d
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,7 +11,8 @@ import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -23,6 +25,9 @@ class MainFragment : Fragment() {
 
     private val bottomNavigationDrawerFragment = BottomNavigationDrawerFragment()
     private val sharedModel : FragmentSharedModel by activityViewModels()
+    private lateinit var navController : NavController
+    private lateinit var mainPreferences : SharedPreferences
+    private lateinit var mainPrefEditor : SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -39,14 +44,17 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Attributes
 
         // Instantiation
+        navController = Navigation.findNavController(view)
+        mainPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        mainPrefEditor = mainPreferences.edit()
         mImgCar = view.findViewById(R.id.imgCar)
         mImgLeft = view.findViewById(R.id.imgLeft)
         mImgRight = view.findViewById(R.id.imgRight)
         mTxtHeadway = view.findViewById(R.id.txtHeadway)
         mMainDrawerLayout = view.findViewById(R.id.drawerLayoutMain)
+
 
         // method calls
         mainBottomAppBar.replaceMenu(R.menu.menu_bottombar)
@@ -55,7 +63,8 @@ class MainFragment : Fragment() {
         mainBottomAppBar.setOnMenuItemClickListener { item ->
             when(item.itemId) {
                 R.id.app_bar_settings -> {
-                    Toast.makeText(requireContext(), "Settings Clicked", Toast.LENGTH_SHORT).show()
+                    // Temporary Measure
+                    navController.navigate(R.id.action_mainFragment_to_mainPreferences)
                     true
                 }
                 else -> false
@@ -65,7 +74,6 @@ class MainFragment : Fragment() {
             bottomNavigationDrawerFragment.show(this.parentFragmentManager,
                 bottomNavigationDrawerFragment.tag)
         }
-
         sharedModel.item.observe(this.viewLifecycleOwner,
             androidx.lifecycle.Observer { chosenID ->
                 when (chosenID.itemId) {
@@ -93,7 +101,6 @@ class MainFragment : Fragment() {
                 counter++
             }
         }
-
         mTimer.start()
     }
 }

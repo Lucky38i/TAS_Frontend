@@ -4,6 +4,8 @@ import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +32,8 @@ class OnboardFragment : Fragment() {
     lateinit var navController : NavController
     lateinit var buttonToFilled : AnimatorSet
     lateinit var buttonVisibility : AnimatorSet
+    private lateinit var mainPreferences : SharedPreferences
+    private lateinit var mainPrefEditor : SharedPreferences.Editor
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +48,8 @@ class OnboardFragment : Fragment() {
 
         // Attribute Initialization
         navController = Navigation.findNavController(view)
+        mainPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        mainPrefEditor = mainPreferences.edit()
         mSlideViewPager = view.findViewById(R.id.slideViewPager)
         mWordDotsIndicator = view.findViewById(R.id.wormDotsIndicator)
         mOnboardNextButton = view.findViewById(R.id.onboardNextBtn)
@@ -67,9 +73,9 @@ class OnboardFragment : Fragment() {
             override fun onAnimationEnd(animation: Animator?) {
                 super.onAnimationEnd(animation)
                 if (mCurrentPage == sliderAdapter.count - 1 ){
-                    mOnboardNextButton.text = resources.getString(R.string.txt_finished)
+                    mOnboardNextButton.text = getString(R.string.txt_finished)
                 } else if (mCurrentPage == sliderAdapter.count - 2) {
-                    mOnboardNextButton.text = resources.getString(R.string.txt_next)
+                    mOnboardNextButton.text = getString(R.string.txt_next)
                 }
             }
         })
@@ -106,10 +112,12 @@ class OnboardFragment : Fragment() {
             if ((mOnboardNextButton.text == resources.getText(R.string.txt_finished)) && (mCurrentPage == sliderAdapter.count -1))
             {
                 navController.navigate(R.id.action_onboard_to_mainFragment)
+                mainPrefEditor.putBoolean(getString(R.string.key_onboard_finished), true).apply()
             }
         }
         mOnboardSkipButton.setOnClickListener {
             navController.navigate(R.id.action_onboard_to_mainFragment)
+            mainPrefEditor.putBoolean(getString(R.string.key_onboard_finished), true).apply()
         }
     }
 }

@@ -7,5 +7,6 @@
         <SwitchPreferenceCompat
             app:key="measurement"
             app:title="Select your measurement"/>
+
     </PreferenceCategory>
 </PreferenceScreen>

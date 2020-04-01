@@ -26,6 +26,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navigation_view.setNavigationItemSelectedListener {item ->
+            this.dismiss()
             sharedModel.setItem(item)
             true
         }

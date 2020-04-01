@@ -25,4 +25,7 @@
     <string name="txt_headway_demo">Headway Demo</string>
     <string name="txt_lcw_demo">LCW Demo</string>
 
+    //Prefernece Keys
+    <string name="key_onboard_finished">onboard_finished</string>
+
 </resources>
