@@ -4,19 +4,22 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log.d
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import ntu.n0696066.tas_frontend.R
 
 class Splash : Fragment() {
     private lateinit var mainPreferences : SharedPreferences
     private lateinit var navController : NavController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +37,7 @@ class Splash : Fragment() {
         // Shitty attempt at a splash screen, will re-do properly later
         val mTimer = object : CountDownTimer(3000, 1000) {
             override fun onFinish() {
-                if ( mainPreferences.getBoolean(getString(R.string.key_onboard_finished),
+                if ( mainPreferences.getBoolean(getString(R.string.pref_key_onboardFinished),
                         false)) {
                     navController.navigate(R.id.action_splash_to_mainFragment)
                 } else navController.navigate(R.id.action_splash_to_greetingFragment)

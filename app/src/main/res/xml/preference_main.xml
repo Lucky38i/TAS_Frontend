@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory
-        app:key="measurements_category"
-        app:title="Measurements">
-        <SwitchPreferenceCompat
-            app:key="measurement"
-            app:title="Select your measurement"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ListPreference
+        android:defaultValue="@string/pref_unitsMeasure_default"
+        android:key="@string/pref_unitsMeasure_key"
+        android:summary="@string/pref_unitsMeasure_desc"
+        android:title="@string/pref_unitsMeasure_title"
+        android:entries="@array/pref_unitsMeasure_entries"
+        android:entryValues="@array/pref_unitsMeasure_entriesValues"/>
+    <SeekBarPreference
+        android:key="Headway"
+        android:summary="Some stuff for headway monitoring"
+        android:title="Headway"
+        android:max="5"
+        app:showSeekBarValue="true"/>
 
-    </PreferenceCategory>
 </PreferenceScreen>

@@ -112,12 +112,12 @@ class OnboardFragment : Fragment() {
             if ((mOnboardNextButton.text == resources.getText(R.string.txt_finished)) && (mCurrentPage == sliderAdapter.count -1))
             {
                 navController.navigate(R.id.action_onboard_to_mainFragment)
-                mainPrefEditor.putBoolean(getString(R.string.key_onboard_finished), true).apply()
+                mainPrefEditor.putBoolean(getString(R.string.pref_key_onboardFinished), true).apply()
             }
         }
         mOnboardSkipButton.setOnClickListener {
             navController.navigate(R.id.action_onboard_to_mainFragment)
-            mainPrefEditor.putBoolean(getString(R.string.key_onboard_finished), true).apply()
+            mainPrefEditor.putBoolean(getString(R.string.pref_key_onboardFinished), true).apply()
         }
     }
 }

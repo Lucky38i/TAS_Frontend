@@ -56,13 +56,14 @@
         android:id="@+id/mainFragment"
         android:name="ntu.n0696066.tas_frontend.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment_to_mainPreferences"
-            app:destination="@id/mainPreferences" />
-    </fragment>
-    <fragment
-        android:id="@+id/mainPreferences"
-        android:name="ntu.n0696066.tas_frontend.MainPreferences"
-        android:label="MainPreferences" />
+        tools:layout="@layout/fragment_main" />
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="ntu.n0696066.tas_frontend.SettingsActivity"
+        android:label="SettingsActivity" />
+    <action
+        android:id="@+id/action_global_settingsActivity"
+        app:destination="@id/settingsActivity"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out" />
 </navigation>
