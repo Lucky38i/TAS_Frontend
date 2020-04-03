@@ -1,6 +1,5 @@
 package ntu.n0696066.tas_frontend
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -11,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.preference.PreferenceManager
 
 class Splash : Fragment() {
     private lateinit var mainPreferences : SharedPreferences
@@ -32,13 +32,13 @@ class Splash : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-        mainPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        mainPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         // Shitty attempt at a splash screen, will re-do properly later
         val mTimer = object : CountDownTimer(3000, 1000) {
             override fun onFinish() {
-                if ( mainPreferences.getBoolean(getString(R.string.pref_key_onboardFinished),
-                        false)) {
+                if ( mainPreferences.getBoolean(getString(R.string.pref_onboardFinished_key),
+                        resources.getBoolean(R.bool.pref_onboardFinished_default))) {
                     navController.navigate(R.id.action_splash_to_mainFragment)
                 } else navController.navigate(R.id.action_splash_to_greetingFragment)
             }

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainFragment : Fragment() {
 
@@ -22,10 +23,10 @@ class MainFragment : Fragment() {
     private lateinit var mImgRight : ImageView
     private lateinit var mTxtHeadway : TextView
 
-    private val sharedModel : FragmentSharedModel by activityViewModels()
     private lateinit var navController : NavController
     private lateinit var mainPreferences : SharedPreferences
-    private lateinit var mainPrefEditor : SharedPreferences.Editor
+    private var headWayDistance : Int? = null
+    private var unitSelected : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -47,16 +48,34 @@ class MainFragment : Fragment() {
         // Instantiation
         navController = Navigation.findNavController(view)
         mainPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        mainPrefEditor = mainPreferences.edit()
         mImgCar = view.findViewById(R.id.imgCar)
         mImgLeft = view.findViewById(R.id.imgLeft)
         mImgRight = view.findViewById(R.id.imgRight)
         mTxtHeadway = view.findViewById(R.id.txtHeadway)
 
-        // TODO setup listener from navigation drawer
+        // Assignments
+        headWayDistance = mainPreferences.getInt(getString(R.string.pref_headway_key),
+            resources.getInteger(R.integer.pref_headway_default))
+        unitSelected = mainPreferences.getString(getString(R.string.pref_unitsMeasure_key),
+            getString(R.string.pref_unitsMeasure_default))
+
+        // Listeners
+        requireActivity().navigation_view.setNavigationItemSelectedListener {selectedItem ->
+            when (selectedItem.itemId) {
+                R.id.nav_fcw ->{
+                    simulateFcw()
+                    requireActivity().drawerLayoutMain.closeDrawers()
+                    true
+                }
+                R.id.nav_headway -> {true}
+                R.id.nav_rcw -> {true}
+                R.id.nav_lcw -> {true}
+                else -> false
+            }
+        }
     }
 
-    fun simulateFcw() {
+    private fun simulateFcw() {
         val mTimer = object : CountDownTimer(30000, 5000) {
             var counter = 1
             override fun onFinish() {

@@ -14,6 +14,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
@@ -48,7 +49,7 @@ class OnboardFragment : Fragment() {
 
         // Attribute Initialization
         navController = Navigation.findNavController(view)
-        mainPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        mainPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         mainPrefEditor = mainPreferences.edit()
         mSlideViewPager = view.findViewById(R.id.slideViewPager)
         mWordDotsIndicator = view.findViewById(R.id.wormDotsIndicator)
@@ -112,12 +113,12 @@ class OnboardFragment : Fragment() {
             if ((mOnboardNextButton.text == resources.getText(R.string.txt_finished)) && (mCurrentPage == sliderAdapter.count -1))
             {
                 navController.navigate(R.id.action_onboard_to_mainFragment)
-                mainPrefEditor.putBoolean(getString(R.string.pref_key_onboardFinished), true).apply()
+                mainPrefEditor.putBoolean(getString(R.string.pref_onboardFinished_key), true).apply()
             }
         }
         mOnboardSkipButton.setOnClickListener {
             navController.navigate(R.id.action_onboard_to_mainFragment)
-            mainPrefEditor.putBoolean(getString(R.string.pref_key_onboardFinished), true).apply()
+            mainPrefEditor.putBoolean(getString(R.string.pref_onboardFinished_key), true).apply()
         }
     }
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="pref_headway_default">3</integer>
+    <integer name="pref_headway_min">2</integer>
+    <integer name="pref_headway_max">8</integer>
+</resources>

@@ -26,11 +26,18 @@
     <string name="txt_lcw_demo">LCW Demo</string>
 
     //Preferences
-    <string name="pref_key_onboardFinished">onboard_finished</string>
-    <string name="pref_unitsMeasure_key">unitsMeasure</string>
+    <string name="pref_onboardFinished_key">pref_onboardFinished</string>
+    <string name="pref_unitsMeasure_key">pref_unitsMeasure</string>
+    <string name="pref_headway_key">pref_headway</string>
+
     <string name="pref_unitsMeasure_title">Units of Measure</string>
+    <string name="pref_headway_title">Headway</string>
+
     <string name="pref_unitsMeasure_desc">The units to be used in length measurement</string>
+    <string name="pref_headway_desc"> The distance for headway monitoring in seconds</string>
+
     <string name="pref_unitsMeasure_default">KM</string>
+
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->

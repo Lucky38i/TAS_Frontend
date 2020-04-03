@@ -11,10 +11,12 @@
         android:entries="@array/pref_unitsMeasure_entries"
         android:entryValues="@array/pref_unitsMeasure_entriesValues"/>
     <SeekBarPreference
-        android:key="Headway"
-        android:summary="Some stuff for headway monitoring"
-        android:title="Headway"
-        android:max="5"
+        android:key="@string/pref_headway_key"
+        android:summary="@string/pref_headway_desc"
+        android:title="@string/pref_headway_title"
+        android:max="@integer/pref_headway_max"
+        android:min="@integer/pref_headway_min"
+        android:defaultValue="@integer/pref_headway_default"
         app:showSeekBarValue="true"/>
 
 </PreferenceScreen>
