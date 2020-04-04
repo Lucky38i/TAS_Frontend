@@ -14,4 +14,7 @@
 
     <color name="colorBackground">#ffff</color>
 
+    <!-- Temp Colors -->
+    <color name="yellow">#FDD835</color>
+
 </resources>
