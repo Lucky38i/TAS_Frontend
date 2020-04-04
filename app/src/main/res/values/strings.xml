@@ -10,6 +10,7 @@
     <string name="txt_fcw_demo">FCW Demo</string>
     <string name="txt_demos">Demos</string>
     <string name="txt_rcw_demo">RCW Demo</string>
+    <string name="txt_headway_default">0</string>
 
     // Titles
     <string name="title_onboarding_temp_heading">Temporary Heading</string>
@@ -54,6 +55,7 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
 
 
 </resources>

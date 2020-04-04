@@ -14,14 +14,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.activity_main.*
-import ntu.n0696066.tas_frontend.CompareDrawables.bytesEqualTo
-import ntu.n0696066.tas_frontend.CompareDrawables.pixelsEqualTo
 import java.util.concurrent.TimeUnit
+import kotlin.math.round
 
 class MainFragment : Fragment() {
 
@@ -85,38 +83,65 @@ class MainFragment : Fragment() {
             }
         }
         mTxtHeadway.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
+            var beforeInt : Int? = null
+            override fun afterTextChanged(s: Editable?) {
+                if (mTxtHeadway.text.toString().toInt() >= 15) mTxtHeadway.alpha = 0f
+                else if (mTxtHeadway.text.toString().toInt() < 15) mTxtHeadway.alpha = 1f
+            }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                beforeInt = s.toString().toIntOrNull()
+            }
 
             /**
              * A sort of sloppy implementation but it works, any changes to headway text and various
-             * action occur no matter where the change is made making it easily adaptable to when
+             * actions occur no matter where the change is made making it easily adaptable to when
              * V2V HMI is being used
              */
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val goingDown = if (beforeInt != null) {
+                    if (s.toString().toIntOrNull() != null) s.toString().toInt() < beforeInt!!
+                    else false
+                } else false  // Used to tell if the monitored headway is incrementing
+
                 when {
-                    s.toString().toInt() > headWayDistance!! * 3 -> {
+                    s.toString().toInt() == headWayDistance!! * 4 -> {
                         mTxtHeadway.setTextColor(resources.getColor(android.R.color.white,
                             null))
+                        if (!goingDown) {
+                            mImgCar.setImageResource(R.drawable.avd_fcw_start_car)
+                            (mImgCar.drawable as AnimatedVectorDrawable).start()
+                        }
 
                     }
                     s.toString().toInt() == headWayDistance!! * 3 -> {
                         mTxtHeadway.setTextColor(resources.getColor(android.R.color.holo_green_dark,
                             null))
-                        (mImgCar.drawable as AnimatedVectorDrawable).start()
+                        if (goingDown) {
+                            (mImgCar.drawable as AnimatedVectorDrawable).start()
+                        } else {
+                            mImgCar.setImageResource(R.drawable.avd_fcw_med_start)
+                            (mImgCar.drawable as AnimatedVectorDrawable).start()
+                        }
                     }
                     s.toString().toInt() == headWayDistance!! * 2 -> {
                         mTxtHeadway.setTextColor(resources.getColor(R.color.yellow,
                             null))
-                        mImgCar.setImageResource(R.drawable.avd_fcw_start_med)
-                        (mImgCar.drawable as AnimatedVectorDrawable).start()
+                        if (goingDown) {
+                            mImgCar.setImageResource(R.drawable.avd_fcw_start_med)
+                            (mImgCar.drawable as AnimatedVectorDrawable).start()
+                        } else {
+                            mImgCar.setImageResource(R.drawable.avd_fcw_end_med)
+                            (mImgCar.drawable as AnimatedVectorDrawable).start()
+                        }
                     }
                     s.toString().toInt() == headWayDistance!! -> {
                         mTxtHeadway.setTextColor(resources.getColor(android.R.color.holo_red_dark,
                             null))
-                        mImgCar.setImageResource(R.drawable.avd_fcw_med_end)
-                        (mImgCar.drawable as AnimatedVectorDrawable).start()
+                        if (goingDown) {
+                            mImgCar.setImageResource(R.drawable.avd_fcw_med_end)
+                            (mImgCar.drawable as AnimatedVectorDrawable).start()
+                        }
                     }
                 }
             }
@@ -125,28 +150,31 @@ class MainFragment : Fragment() {
     }
 
     private fun simulateFcw() {
-        val mTimeCollisionUp = object : CountDownTimer(TimeUnit.SECONDS.toMillis(5),
-            TimeUnit.SECONDS.toMillis(1)) {
-            override fun onFinish() {
-                TODO("Not yet implemented")
-            }
+        val duration : Long = 15
+        val interval : Long = 1
+
+        val mTimerCollisionUp = object : CountDownTimer(TimeUnit.SECONDS.toMillis(duration),
+            TimeUnit.SECONDS.toMillis(interval)) {
+            override fun onFinish() {}
 
             override fun onTick(millisUntilFinished: Long) {
-                TODO("Not yet implemented")
+                val counter = duration - TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                mTxtHeadway.text = counter.toString()
             }
-
         }
-        val mTimerCollision = object : CountDownTimer(TimeUnit.SECONDS.toMillis(10),
-            TimeUnit.SECONDS.toMillis(1)) {
+
+        val mTimerCollision = object : CountDownTimer(TimeUnit.SECONDS.toMillis(duration),
+            TimeUnit.SECONDS.toMillis(interval)) {
 
             override fun onFinish() {
+                mTimerCollisionUp.start()
             }
 
             override fun onTick(millisUntilFinished: Long) {
                 mTxtHeadway.text = (mTxtHeadway.text.toString().toInt() - 1).toString()
             }
         }
-        mTxtHeadway.text = 10.toString()
+        mTxtHeadway.text = duration.toString()
         mTimerCollision.start()
     }
 }
