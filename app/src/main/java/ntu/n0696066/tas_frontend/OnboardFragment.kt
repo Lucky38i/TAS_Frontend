@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -59,7 +58,7 @@ class OnboardFragment : Fragment() {
         buttonToFilled = AnimatorInflater.loadAnimator(view.context,
             R.animator.button_outline_to_filled) as AnimatorSet
         buttonVisibility = AnimatorInflater.loadAnimator(view.context,
-            R.animator.button_visibility_to_invisible) as AnimatorSet
+            R.animator.visible_to_invisible) as AnimatorSet
 
         // Inner Attributes
 

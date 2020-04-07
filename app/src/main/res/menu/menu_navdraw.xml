@@ -18,12 +18,6 @@
                     app:showAsAction="ifRoom"/>
 
                 <item
-                    android:id="@+id/nav_headway"
-                    android:title="@string/txt_headway_demo"
-                    android:icon="@drawable/ic_vector_headway"
-                    app:showAsAction="ifRoom"/>
-
-                <item
                     android:id="@+id/nav_lcw"
                     android:title="@string/txt_lcw_demo"
                     android:icon="@drawable/ic_vector_lcw"
