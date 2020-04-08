@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
@@ -113,6 +114,10 @@ class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
             getString(R.string.pref_unitsMeasure_default))
         imgLeftVisibility.apply { setTarget(mImgLeft) }
         imgRightVisibility.apply { setTarget(mImgRight) }
+
+        GlobalScope.launch(Dispatchers.IO) {
+            startHMIReceiver()
+        }
 
         // Assertions
         assert(headWayDistance != null)
@@ -215,8 +220,8 @@ class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
             }
         })
     }
-    // TODO Develop HTTP Server using 4KHttp
-    private suspend fun startHMIReceiver() {
+    // TODO Develop HTTP Server using nanohttpd
+    private fun startHMIReceiver() {
 
     }
 
