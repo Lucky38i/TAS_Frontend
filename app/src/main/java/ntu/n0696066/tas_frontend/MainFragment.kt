@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
@@ -43,11 +44,16 @@ class MainFragment : Fragment() {
     private lateinit var mainPreferences : SharedPreferences
     private lateinit var imgLeftVisibility : AnimatorSet
     private lateinit var imgRightVisibility : AnimatorSet
+    private lateinit var warningMedSound : MediaPlayer
+    private lateinit var warningEndSound : MediaPlayer
     private var headWayDistance : Int? = null
     private var unitSelected : String? = null
     private var lcwCurrentPos : LCWPosition? = null
     private var rightArrowAnim = false
     private var leftArrowAnim = false
+    private var warningMedPlayed = false
+    private var warningEndPlayed = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -74,6 +80,8 @@ class MainFragment : Fragment() {
             R.animator.invisible_to_visible) as AnimatorSet
         imgRightVisibility = AnimatorInflater.loadAnimator(view.context,
             R.animator.invisible_to_visible) as AnimatorSet
+        warningEndSound = MediaPlayer.create(requireContext(), R.raw.warning_end)
+        warningMedSound = MediaPlayer.create(requireContext(), R.raw.warning_med)
 
         // Assignments
         headWayDistance = mainPreferences.getInt(getString(R.string.pref_headway_key),
@@ -91,11 +99,15 @@ class MainFragment : Fragment() {
         requireActivity().navigation_view.setNavigationItemSelectedListener {selectedItem ->
             when (selectedItem.itemId) {
                 R.id.nav_fcw ->{
-                    simulateFcw()
+                    simulateFcw(LCWPosition.FCW)
                     requireActivity().drawerLayoutMain.closeDrawers()
                     true
                 }
-                R.id.nav_rcw -> {true}
+                R.id.nav_rcw -> {
+                    simulateFcw(LCWPosition.RCW)
+                    requireActivity().drawerLayoutMain.closeDrawers()
+                    true
+                }
                 R.id.nav_lcw -> {
                     simulateLCW()
                     requireActivity().drawerLayoutMain.closeDrawers()
@@ -126,9 +138,10 @@ class MainFragment : Fragment() {
                     else false
                 } else false  // Used to tell if the monitored headway is incrementing or not
 
+                val currentHeadway = s.toString().toInt()
                 when(lcwCurrentPos) {
                     LCWPosition.LCW_BOTTOM_LEFT -> {
-                        manageAnimations(s, goingDown,
+                        manageAnimations(currentHeadway, goingDown,
                             R.drawable.avd_lcw_bottom_left_car_start,
                             R.drawable.avd_lcw_bottom_left_start_car,
                             R.drawable.avd_lcw_bottom_left_start_med,
@@ -137,7 +150,7 @@ class MainFragment : Fragment() {
                             R.drawable.avd_lcw_bottom_left_end_med)
                     }
                     LCWPosition.LCW_BOTTOM_RIGHT -> {
-                        manageAnimations(s, goingDown,
+                        manageAnimations(currentHeadway, goingDown,
                             R.drawable.avd_lcw_bottom_right_car_start,
                             R.drawable.avd_lcw_bottom_right_start_car,
                             R.drawable.avd_lcw_bottom_right_start_med,
@@ -146,7 +159,7 @@ class MainFragment : Fragment() {
                             R.drawable.avd_lcw_bottom_right_end_med)
                     }
                     LCWPosition.LCW_TOP_LEFT -> {
-                        manageAnimations(s, goingDown,
+                        manageAnimations(currentHeadway, goingDown,
                             R.drawable.avd_lcw_top_left_car_start,
                             R.drawable.avd_lcw_top_left_start_car,
                             R.drawable.avd_lcw_top_left_start_med,
@@ -155,7 +168,7 @@ class MainFragment : Fragment() {
                             R.drawable.avd_lcw_top_left_end_med)
                     }
                     LCWPosition.LCW_TOP_RIGHT -> {
-                        manageAnimations(s, goingDown,
+                        manageAnimations(currentHeadway, goingDown,
                             R.drawable.avd_lcw_top_right_car_start,
                             R.drawable.avd_lcw_top_right_start_car,
                             R.drawable.avd_lcw_top_right_start_med,
@@ -164,7 +177,7 @@ class MainFragment : Fragment() {
                             R.drawable.avd_lcw_top_right_end_med)
                     }
                     LCWPosition.FCW -> {
-                       manageAnimations(s, goingDown,
+                       manageAnimations(currentHeadway, goingDown,
                            R.drawable.avd_fcw_car_start, R.drawable.avd_fcw_start_car,
                            R.drawable.avd_fcw_start_med, R.drawable.avd_fcw_med_start,
                            R.drawable.avd_fcw_med_end, R.drawable.avd_fcw_end_med)
@@ -181,11 +194,11 @@ class MainFragment : Fragment() {
     /**
      * Manages sounds and animation cues for various warning systems.
      */
-    private fun manageAnimations(newString: CharSequence?, goingDown : Boolean,
+    private fun manageAnimations(currentHeadway : Int, goingDown : Boolean,
                                  car_start : Int, start_car : Int, start_med: Int,
                                  med_start: Int, med_end: Int, end_med: Int ) {
-        when {
-            newString.toString().toInt() == headWayDistance!! * 4 -> {
+        when(currentHeadway) {
+            headWayDistance!! * 4 -> {
                 mTxtHeadway.setTextColor(resources.getColor(android.R.color.white,
                     null))
                 if (goingDown) {
@@ -196,7 +209,7 @@ class MainFragment : Fragment() {
                 }
 
             }
-            newString.toString().toInt() == headWayDistance!! * 3 -> {
+            headWayDistance!! * 3 -> {
                 mTxtHeadway.setTextColor(resources.getColor(android.R.color.holo_green_dark,
                     null))
                 if (goingDown) {
@@ -205,20 +218,35 @@ class MainFragment : Fragment() {
                     mImgCar.setImageResource(med_start)
                     (mImgCar.drawable as AnimatedVectorDrawable).start()
                 }
-            }
-            newString.toString().toInt() == headWayDistance!! * 2 -> {
 
+                warningMedPlayed = false
+            }
+            headWayDistance!! * 2 -> {
                 when (lcwCurrentPos) {
                     LCWPosition.LCW_BOTTOM_LEFT, LCWPosition.LCW_TOP_LEFT -> {
-                        if(rightArrowAnim) imgRightVisibility.reverse()
+                        if(rightArrowAnim){
+                            imgRightVisibility.reverse()
+                            rightArrowAnim = false
+                        }
                     }
                     LCWPosition.LCW_BOTTOM_RIGHT, LCWPosition.LCW_TOP_RIGHT -> {
-                        if(leftArrowAnim) imgLeftVisibility.reverse()
+                        if(leftArrowAnim) {
+                            imgLeftVisibility.reverse()
+                            rightArrowAnim = false
+                        }
                     } else -> {}
                 }
 
+                if (!warningMedPlayed) {
+                    warningMedSound.start()
+                    warningMedPlayed = true
+                }
+
+                warningEndPlayed = false
+
                 mTxtHeadway.setTextColor(resources.getColor(R.color.yellow,
                     null))
+
                 if (goingDown) {
                     mImgCar.setImageResource(start_med)
                     (mImgCar.drawable as AnimatedVectorDrawable).start()
@@ -227,8 +255,7 @@ class MainFragment : Fragment() {
                     (mImgCar.drawable as AnimatedVectorDrawable).start()
                 }
             }
-            newString.toString().toInt() == headWayDistance!! -> {
-
+            headWayDistance!! -> {
                 when (lcwCurrentPos) {
                     LCWPosition.LCW_BOTTOM_LEFT, LCWPosition.LCW_TOP_LEFT -> {
                         if (!rightArrowAnim) {
@@ -241,7 +268,12 @@ class MainFragment : Fragment() {
                             imgLeftVisibility.start()
                             leftArrowAnim = true
                         }
-                    } else -> {}
+                    }
+                    else -> {}
+                }
+                if (!warningEndPlayed) {
+                    warningEndSound.start()
+                    warningEndPlayed = true
                 }
 
                 mTxtHeadway.setTextColor(resources.getColor(android.R.color.holo_red_dark,
@@ -257,7 +289,7 @@ class MainFragment : Fragment() {
     /**
      * Emulates FCW
      */
-    private fun simulateFcw() {
+    private fun simulateFcw(collisionPos : LCWPosition) {
         val duration : Long = 15
         val interval : Long = 1
 
@@ -283,7 +315,7 @@ class MainFragment : Fragment() {
             }
         }
         mTxtHeadway.text = duration.toString()
-        lcwCurrentPos = LCWPosition.FCW
+        lcwCurrentPos = collisionPos
         mTimerCollision.start()
 
     }
