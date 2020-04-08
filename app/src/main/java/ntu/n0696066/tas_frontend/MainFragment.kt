@@ -183,6 +183,10 @@ class MainFragment : Fragment() {
                            R.drawable.avd_fcw_med_end, R.drawable.avd_fcw_end_med)
                     }
                     LCWPosition.RCW -> {
+                        manageAnimations(currentHeadway, goingDown,
+                            R.drawable.avd_rcw_car_start, R.drawable.avd_rcw_start_car,
+                            R.drawable.avd_rcw_start_med, R.drawable.avd_rcw_med_start,
+                            R.drawable.avd_rcw_med_end, R.drawable.avd_rcw_end_med)
 
                     }
                 }
