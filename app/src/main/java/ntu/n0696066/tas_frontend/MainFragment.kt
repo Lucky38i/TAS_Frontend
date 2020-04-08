@@ -2,7 +2,6 @@ package ntu.n0696066.tas_frontend
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.media.MediaPlayer
@@ -19,10 +18,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     enum class LCWPosition {
         FCW,
@@ -54,6 +56,27 @@ class MainFragment : Fragment() {
     private var warningMedPlayed = false
     private var warningEndPlayed = false
 
+    override fun onResume() {
+        super.onResume()
+        mainPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        mainPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mainPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        mainPreferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == getString(R.string.pref_unitsMeasure_key)) {
+            unitSelected = sharedPreferences!!.getString(getString(R.string.pref_unitsMeasure_key),
+                getString(R.string.pref_unitsMeasure_default))
+        }
+        if (key == getString(R.string.pref_headway_key)) {
+            headWayDistance = sharedPreferences!!.getInt(getString(R.string.pref_headway_key),
+                resources.getInteger(R.integer.pref_headway_default))
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -71,7 +94,7 @@ class MainFragment : Fragment() {
 
         // Instantiation
         navController = Navigation.findNavController(view)
-        mainPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        mainPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         mImgCar = view.findViewById(R.id.imgCar)
         mImgLeft = view.findViewById(R.id.imgLeft)
         mImgRight = view.findViewById(R.id.imgRight)
@@ -187,12 +210,14 @@ class MainFragment : Fragment() {
                             R.drawable.avd_rcw_car_start, R.drawable.avd_rcw_start_car,
                             R.drawable.avd_rcw_start_med, R.drawable.avd_rcw_med_start,
                             R.drawable.avd_rcw_med_end, R.drawable.avd_rcw_end_med)
-
                     }
                 }
             }
         })
-        // TODO Create listener for when settings have been changed
+    }
+    // TODO Develop HTTP Server using 4KHttp
+    private suspend fun startHMIReceiver() {
+
     }
 
     /**
@@ -428,4 +453,6 @@ class MainFragment : Fragment() {
         lcwCurrentPos = LCWPosition.LCW_BOTTOM_RIGHT
         mTimerLCWBottomRight.start()
     }
+
+
 }
