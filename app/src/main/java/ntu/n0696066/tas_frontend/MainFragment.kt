@@ -9,11 +9,14 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log.d
+import android.util.Log.e
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -23,6 +26,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.IOError
+import java.io.IOException
+import java.net.ServerSocket
 import java.util.concurrent.TimeUnit
 
 class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -116,7 +122,7 @@ class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
         imgRightVisibility.apply { setTarget(mImgRight) }
 
         GlobalScope.launch(Dispatchers.IO) {
-            startHMIReceiver()
+            startHMIReceiver(8080)
         }
 
         // Assertions
@@ -220,9 +226,25 @@ class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
             }
         })
     }
-    // TODO Develop HTTP Server using nanohttpd
-    private fun startHMIReceiver() {
-
+    @Deprecated("Not fully developed, requires testing with physical android devices.")
+    private fun startHMIReceiver(PORT : Int) {
+        try {
+            val serverSocket = ServerSocket(PORT)
+            GlobalScope.launch(Dispatchers.Main) {
+                Toast.makeText(requireContext(),
+                    "Server running on ${serverSocket.localPort} on IP: ${serverSocket.localSocketAddress}",
+                    Toast.LENGTH_SHORT).show()
+            }
+            while (true) {
+                val socket = serverSocket.accept()
+                val message : String = socket.inetAddress.toString() + " " + socket.port.toString()
+                GlobalScope.launch(Dispatchers.Main) {
+                    Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+                }
+            }
+        } catch (e : IOException) {
+            e(this.tag, e.printStackTrace().toString())
+        }
     }
 
     /**
