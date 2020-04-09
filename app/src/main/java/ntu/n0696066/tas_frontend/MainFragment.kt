@@ -281,16 +281,32 @@ class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
                 when (lcwCurrentPos) {
                     LCWPosition.LCW_BOTTOM_LEFT, LCWPosition.LCW_TOP_LEFT -> {
                         if(rightArrowAnim){
+                            mImgRight.setImageResource(R.drawable.vector_arrow_right)
+                            imgRightVisibility.reverse()
+                            rightArrowAnim = false
+                        }
+                    }
+                    LCWPosition.RCW -> {
+                        if(rightArrowAnim){
+                            mImgRight.setImageResource(R.drawable.vector_arrow_up)
                             imgRightVisibility.reverse()
                             rightArrowAnim = false
                         }
                     }
                     LCWPosition.LCW_BOTTOM_RIGHT, LCWPosition.LCW_TOP_RIGHT -> {
                         if(leftArrowAnim) {
+                            mImgLeft.setImageResource(R.drawable.vector_arrow_left)
                             imgLeftVisibility.reverse()
-                            rightArrowAnim = false
+                            leftArrowAnim = false
                         }
-                    } else -> {}
+                    }
+                    LCWPosition.FCW -> {
+                        if(leftArrowAnim) {
+                            mImgLeft.setImageResource(R.drawable.vector_arrow_down)
+                            imgLeftVisibility.reverse()
+                            leftArrowAnim = false
+                        }
+                    }
                 }
 
                 if (!warningMedPlayed) {
@@ -315,17 +331,32 @@ class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
                 when (lcwCurrentPos) {
                     LCWPosition.LCW_BOTTOM_LEFT, LCWPosition.LCW_TOP_LEFT -> {
                         if (!rightArrowAnim) {
+                            mImgRight.setImageResource(R.drawable.vector_arrow_left)
+                            imgRightVisibility.start()
+                            rightArrowAnim = true
+                        }
+                    }
+                    LCWPosition.RCW -> {
+                        if (!rightArrowAnim) {
+                            mImgRight.setImageResource(R.drawable.vector_arrow_up)
                             imgRightVisibility.start()
                             rightArrowAnim = true
                         }
                     }
                     LCWPosition.LCW_BOTTOM_RIGHT, LCWPosition.LCW_TOP_RIGHT -> {
                         if (!leftArrowAnim) {
+                            mImgLeft.setImageResource(R.drawable.vector_arrow_right)
                             imgLeftVisibility.start()
                             leftArrowAnim = true
                         }
                     }
-                    else -> {}
+                    LCWPosition.FCW -> {
+                        if (!leftArrowAnim) {
+                            mImgLeft.setImageResource(R.drawable.vector_arrow_down)
+                            imgLeftVisibility.start()
+                            leftArrowAnim = true
+                        }
+                    }
                 }
                 if (!warningEndPlayed) {
                     warningEndSound.start()
